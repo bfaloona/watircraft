@@ -3,6 +3,6 @@ visible:        true
 speed:          fast
 attach:         false
 bring_to_front: false
-leave_open:     false
+leave_open:     true
 driver:         watir
 site:           search

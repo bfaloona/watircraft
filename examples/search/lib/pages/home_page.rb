@@ -4,10 +4,11 @@ require 'taza/page'
 module Search
   class HomePage < ::Taza::Page
 
-    url 'http://www.google.com/'
+    url '/'
     
     field(:search_textbox){         browser.text_field( :name, 'q')}
     
+    element(:google_search_button){ browser.button(     :name, 'btnG')}
     element(:privacy_link){         browser.link(       :href, /^\/intl\/.+?\/privacy.html/)}
     
     # appears only when logged in

@@ -4,8 +4,12 @@ require 'spec_helper'
 
 describe "Home Page" do
 
+  before :all do
+    home_page.goto
+  end
+
   it "should display the copyright" do
-    browser.text.should match(/©2009/)
+    browser.text.should match(/©#{Time.now.year}\b/)
   end
   
   it "should have a privacy link" do
