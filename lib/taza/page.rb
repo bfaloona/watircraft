@@ -2,6 +2,49 @@ require 'extensions/string'
 require 'watir/exceptions' # so we can trap them
 require 'watircraft/table'
 
+
+# test if the browser is on the +:page+
+def on_page?(page)      
+  p = send(page.to_s)
+  return p.class == current_page.class
+end
+
+# return the page object the browser is currently displaying
+def current_page
+  precision = 0
+  p = nil
+  possible_pages = []
+  # check the url first
+  site.pages.each do |page_name|
+    page = send(page_name)
+    possible_pages << page if page.url_identifier(browser)
+  end
+
+  # if url_identifier uniquely identified current page, return the single match
+  return possible_pages[0] if possible_pages.length == 1 
+  possible_pages.each do |page|
+    current_page_precision = 0        
+    begin          
+      page.page_identifiers.each do |identifier|
+        break unless page.send(identifier, browser)
+        current_page_precision += 1
+      end
+      if current_page_precision > precision
+        precision = current_page_precision
+        # record page with highest precision      
+        p = page
+      end
+    rescue Exception => e  
+#             
+      raise RuntimeError, "Try to idenfiy page failed for " + page.to_s + " with error: #{e.message}"
+    end        
+  end
+
+  raise RuntimeError, "Failed to identify current page object" unless p
+  return p
+end
+
+
 module Taza
   # An abstraction of a web page, place the elements you care about accessing in here as well as specify the filters that apply when trying to access the element.
   #
@@ -17,6 +60,8 @@ module Taza
   #   end
   #
   # <tt>home_page.submit</tt> will return the button specified if the filter returned true
+  
+  
   class Page
     attr_accessor :browser, :site
 
@@ -154,6 +199,40 @@ module Taza
           sub_class.new send("#{name}_table")
         end
       end
+    end
+
+
+    # Returns all defined page identifiers defined for the page.
+    #
+    # Example page identifier method
+    #   def div_page_identifier
+    #     true if browser.text.match(/<div class=title/)
+    #   end
+    def page_identifiers
+      @page_identifiers || @page_identifiers = self.methods.select{ |method_name| method_name.match( /.*_page_identifier$/ ) }
+    end
+    
+    # URL regular expression defined by page for matching url.
+    #
+    # Example
+    #   def url_regex
+    #     /store\?section/
+    #   end
+    def url_regex
+      raise RuntimeError, "#{self.class} must override url_regex method"
+    end
+
+    # Determine whether the current page matches the url_regex for this page
+    def url_identifier(browser)
+      return browser.url.match( url_regex )
+    end
+
+    # display class name and final portion of url before querystring
+    def to_s
+      klass = self.class.to_s.gsub(/^[^:]+::/,'')
+      puts browser.url
+      file = browser.url.match(/^https?:\/\/[^?]+?\/([^?\/]+)?(\?|$)/)[1]
+      return "#{klass} (#{file})"
     end
 
     def initialize

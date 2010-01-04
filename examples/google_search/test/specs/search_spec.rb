@@ -1,8 +1,7 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) unless 
   $LOAD_PATH.include? File.dirname(__FILE__)
 require 'spec_helper'
-
-require 'pp'
+require 'taza/page'
 
 describe "Search" do
 

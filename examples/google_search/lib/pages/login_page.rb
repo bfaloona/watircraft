@@ -6,6 +6,15 @@ module GoogleSearch
 
     url 'accounts/Login'
     
+    def url_regex
+      /google/ # intentionally broad so we can trigger the *_page_identifier below
+    end
+    
+    def result_links_page_identifier(browser)
+      browser.html.match(/<id [^>]*?id=.Email/)
+    end
+    
+    
     field(:email_textbox){            browser.text_field(   :id, 'Email')}
     field(:password_textbox){         browser.text_field(   :id, 'Passwd')}
     
