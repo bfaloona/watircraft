@@ -2,6 +2,7 @@ require 'rubygems'
 require 'activesupport'
 require 'taza/settings'
 require 'spec/matchers'
+require 'watircraft/test_data'
 
 module Taza
   # An abstraction of a website, but more really a container for a sites pages.
