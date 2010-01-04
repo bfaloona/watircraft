@@ -13,4 +13,8 @@ describe "Results" do
     results_page.page_10_link.href.should match(/\?.*?start=90&/)
   end
   
+  it "should find what I'm looking for" do
+    search('watircraft') 
+    results_include('bret') 
+  end
 end

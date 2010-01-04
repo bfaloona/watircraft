@@ -8,9 +8,5 @@ Then /^I search for '(.*?)'$/ do |search_term|
 end
 
 Then /^I should find '(.*?)'$/ do |result_term|
-  found = false 
-  results.each do |text, href|
-    found = true if text.match(/#{result_term}/i)
-  end
-  fail "The text #{result_term} did not appear in the text of any result links" unless found
+  fail "The text #{result_term} did not appear in the text of any result links" unless results_include(result_term)
 end

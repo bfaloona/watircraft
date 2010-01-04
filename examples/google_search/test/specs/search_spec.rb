@@ -12,7 +12,7 @@ describe "Search" do
 
   it "should find what I search for" do
     search('watircraft') 
-    browser.text.should match(/bret/) 
+    results_include('bret') 
   end
 
 end

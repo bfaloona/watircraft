@@ -10,7 +10,6 @@ module GoogleSearch
     def initialize_browser
       super # configure the browser based on the configuration settings
     end
-    # require 'ruby-debug';debugger
-    # puts 'foo'
+
   end
 end

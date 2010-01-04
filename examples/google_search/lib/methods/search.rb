@@ -2,8 +2,13 @@ module GoogleSearch
   module Methods
     
     def search(query)
-      home_page.search_textbox = query
-      home_page.google_search_button.click
+      begin
+        home_page.search_textbox = query
+        home_page.google_search_button.click
+      rescue
+        results_page.search_textbox = query
+        results_page.google_search_button.click
+      end
       sleep 1
     end
     
@@ -16,6 +21,15 @@ module GoogleSearch
       end
       ret
     end
-
+    
+    # true if term in results
+    def results_include(term)
+      found = false 
+      results.each do |text, href|
+        found = true if text.match(/#{term}/i)
+      end
+      return found
+    end
+    
   end
 end
