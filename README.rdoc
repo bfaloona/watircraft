@@ -17,6 +17,8 @@ Copyright (c) 2008 Charley Baker
 
 Copyright (c) 2009 Charley Baker, Bret Pettichord
 
+Copyright (c) 2010 Globys, Inc., Charley Baker, Bret Pettichord
+
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 'Software'), to deal in the Software without restriction, including

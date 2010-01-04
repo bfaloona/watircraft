@@ -4,15 +4,8 @@ module GoogleSearch
     def search(query)
       current_page.search_textbox = query
       current_page.google_search_button.click
-    
-    #  begin
-    #    home_page.search_textbox = query
-    #    home_page.google_search_button.click
-    #  rescue
-    #    results_page.search_textbox = query
-    #    results_page.google_search_button.click
-    #  end
-      sleep 1
+      sleep 1 # hack to help firewatir wait for new page. :(
+      fail "Search action did not navigate to :results_page" unless on_page? :results_page
     end
     
     # hash of results {text => href}
