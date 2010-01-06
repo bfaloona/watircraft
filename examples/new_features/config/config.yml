@@ -1,0 +1,8 @@
+browser:        firefox
+visible:        true
+speed:          fast
+attach:         false
+bring_to_front: true
+leave_open:     false
+driver:         watir
+site:           new_features
